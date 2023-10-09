@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmpoa02gbx20n"]
+
+[ext_resource type="Script" path="res://draw.gd" id="1_fngei"]
+[ext_resource type="Shader" path="res://draw.gdshader" id="1_vb7ai"]
+[ext_resource type="Script" path="res://scripts/physic_properties.gd" id="2_08v7a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_26ugm"]
+shader = ExtResource("1_vb7ai")
+shader_parameter/points = Array[Vector2]([])
+shader_parameter/smooth_radius = null
+shader_parameter/mass = 1.0
+
+[node name="Node2D" type="Node2D"]
+material = SubResource("ShaderMaterial_26ugm")
+script = ExtResource("1_fngei")
+OpenLog = true
+radius = 5
+mass = 2
+smooth_radius = 60
+spawn_paticle = Vector2i(12, 12)
+box = Rect2(100, 100, 300.595, 300.29)
+gravity = 200.0
+
+[node name="PhysicProp" type="Node" parent="."]
+script = ExtResource("2_08v7a")
