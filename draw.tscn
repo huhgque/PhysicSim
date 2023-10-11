@@ -6,20 +6,23 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_26ugm"]
 shader = ExtResource("1_vb7ai")
-shader_parameter/points = Array[Vector2]([])
+shader_parameter/points = Array[Vector2]([Vector2(158.329, 328.465), Vector2(140.2, 383.934), Vector2(140.2, 391.744), Vector2(150.079, 256.231), Vector2(144.46, 267.058), Vector2(269.019, 309.413), Vector2(144.45, 164.955), Vector2(314.312, 125.008), Vector2(179.408, 139.626), Vector2(245.774, 114.551), Vector2(300.15, 209.676), Vector2(179.282, 387.497), Vector2(234.062, 259.703), Vector2(140.2, 174.241), Vector2(219.168, 314.559), Vector2(228.182, 206.258), Vector2(187.448, 306.546), Vector2(280.929, 380.217), Vector2(168.277, 254.728), Vector2(378.383, 215.857), Vector2(242.897, 360.426), Vector2(197.058, 278.84), Vector2(382.023, 202.759), Vector2(390.855, 221.338), Vector2(209.847, 210.797), Vector2(167.851, 383.88), Vector2(283.633, 162.175), Vector2(145.07, 337.384), Vector2(284.181, 328.447), Vector2(324.721, 270.633), Vector2(146.593, 376.017), Vector2(292.966, 315.362), Vector2(176.868, 304.784), Vector2(256.732, 260.267), Vector2(337.962, 366.175), Vector2(364.377, 350.265), Vector2(282.024, 365.179), Vector2(395.595, 296.904), Vector2(315.967, 261.438), Vector2(379.747, 141.903), Vector2(280.273, 276.082), Vector2(174.078, 180.107), Vector2(306.463, 154.26), Vector2(306.505, 216.465), Vector2(261.914, 186.168), Vector2(229.363, 333.461), Vector2(230.633, 387.113), Vector2(231.885, 229.878), Vector2(229.24, 337.865), Vector2(140.2, 381.571), Vector2(140.2, 156.787), Vector2(167.396, 271.351), Vector2(236.264, 124.282), Vector2(365.158, 322.573), Vector2(150.374, 154.403), Vector2(280.13, 333.174), Vector2(354.702, 362.882), Vector2(395.595, 307.935), Vector2(219.713, 105.364), Vector2(274.448, 226.658), Vector2(388.084, 159.301), Vector2(358.099, 234.622), Vector2(140.2, 172.031), Vector2(140.2, 175.166), Vector2(361.831, 271.67), Vector2(229.803, 358.012), Vector2(285.991, 273.901), Vector2(327.797, 338.091), Vector2(264.458, 142.032), Vector2(140.2, 191.632), Vector2(281.292, 160.243), Vector2(177.395, 217.427), Vector2(211.813, 308.221), Vector2(238.89, 109.951), Vector2(333.558, 283.865), Vector2(311.352, 147.322), Vector2(334.707, 382.549), Vector2(244.816, 177.101), Vector2(265.764, 194.442), Vector2(303.445, 306.401), Vector2(140.2, 254.445), Vector2(141.554, 302.76), Vector2(155.837, 259.163), Vector2(346.733, 105), Vector2(276.677, 365.923), Vector2(236.303, 217.621), Vector2(141.364, 219.63), Vector2(290.483, 217.962), Vector2(140.2, 395.29), Vector2(191.482, 227.405), Vector2(232.857, 280.185), Vector2(343.224, 144.357), Vector2(237.077, 386.336), Vector2(389.163, 288.626), Vector2(357.526, 307.785), Vector2(278.937, 105), Vector2(140.2, 229.406), Vector2(316.25, 105), Vector2(333.337, 227.481), Vector2(308.26, 221.046), Vector2(140.2, 240.502), Vector2(395.595, 116.76), Vector2(294.831, 312.934), Vector2(306.668, 289.544), Vector2(232.215, 346.698), Vector2(171.945, 371.602), Vector2(244.07, 178.148), Vector2(217.412, 365.788), Vector2(140.2, 319.203), Vector2(140.2, 284.994), Vector2(271.064, 218.288), Vector2(140.2, 185.838), Vector2(290.653, 371.894), Vector2(365.921, 352.583), Vector2(293.765, 257.672), Vector2(165.919, 144.497), Vector2(234.335, 305.396), Vector2(140.2, 355.956), Vector2(395.172, 136.855), Vector2(364.752, 315.951), Vector2(140.2, 352.587), Vector2(140.2, 362.2), Vector2(140.2, 158.831), Vector2(280.301, 288.675), Vector2(368.599, 115.06), Vector2(339.848, 323.417), Vector2(140.2, 282.357), Vector2(187.128, 278.428), Vector2(302.644, 142.68), Vector2(320.715, 391.82), Vector2(297.469, 287.859), Vector2(351.24, 191.354), Vector2(210.374, 302.234), Vector2(215.897, 180.171), Vector2(389.27, 357.25), Vector2(151.252, 162.49), Vector2(372.763, 375.153), Vector2(280.293, 368.049), Vector2(231.04, 301.822), Vector2(140.2, 113.304), Vector2(388.228, 325.129), Vector2(253.616, 166.406), Vector2(302.488, 274.197), Vector2(222.394, 296.498)])
+shader_parameter/densities = null
 shader_parameter/smooth_radius = null
 shader_parameter/mass = 1.0
+shader_parameter/radius = null
 
 [node name="Node2D" type="Node2D"]
 material = SubResource("ShaderMaterial_26ugm")
 script = ExtResource("1_fngei")
+ResetScene = true
 OpenLog = true
-radius = 5
-mass = 2
-smooth_radius = 60
-spawn_paticle = Vector2i(12, 12)
-box = Rect2(100, 100, 300.595, 300.29)
+targetFps = 99
+mass = 30
+spawn_paticle = Vector2i(10, 10)
+box = Rect2(100, 84.64, 1000, 500)
 gravity = 200.0
+colldamping = 0.8
 
 [node name="PhysicProp" type="Node" parent="."]
 script = ExtResource("2_08v7a")

@@ -1,4 +1,3 @@
-@tool
 extends Node2D
 class_name PhysicScene
 
@@ -24,8 +23,15 @@ class_name PhysicScene
 		gravity = val 
 	get :
 		return gravity
-
+@export var colldamping:float = 1 :
+	set(val) : 
+		PhysicProp.colldamping = val
+		colldamping = val 
+	get :
+		return colldamping
 var paticles:Array[PhyPaticle]
+var velocity:Array[Vector2]
+var density:Array[float]
 var target_delta
 var current_delta:float = 0
 func _ready():
@@ -34,6 +40,11 @@ func _ready():
 	paticles = []
 	genarate_paticle()
 
+func collision_handle(sample_point:PhyPaticle):
+	for p in paticles :
+		if (sample_point.pos - p.pos).length() < radius:
+			sample_point.velocity *= (sample_point.pos - p.pos).normalized()
+
 func patical_arr()->Array[Vector2]:
 	var arr:Array[Vector2] = []
 	for p in paticles :
@@ -41,16 +52,36 @@ func patical_arr()->Array[Vector2]:
 	return arr
 
 func _process(delta):
-	material.set_shader_parameter("smooth_radius",smooth_radius)
-	material.set_shader_parameter("points",patical_arr())
-	material.set_shader_parameter("mass",mass)
 	current_delta += delta
 	if current_delta < target_delta : return
-	current_delta = 0
+#   program start here
+	density.clear()
 	for pa in paticles :
-		pa.update(delta)
+		var dens = cal_desity(pa)
+		density.push_back(dens)
+#		presure_direction(pa,dens)
+		pa.update(current_delta)
 		out_off_box(pa)
+	material.set_shader_parameter("smooth_radius",smooth_radius)
+	material.set_shader_parameter("radius",radius)
+	material.set_shader_parameter("points",patical_arr())
+	material.set_shader_parameter("mass",mass)
+	material.set_shader_parameter("densities",density)
 	queue_redraw()
+	current_delta = 0
+
+func presure_direction(pa:PhyPaticle,current_dens:float):
+	if current_dens == 0 : return
+	for p in paticles :
+		if p.pos != pa.pos :
+			var dis = (pa.pos - p.pos).length()
+			if dis > radius : continue
+			var sample_vel_lengh = pa.velocity.length()
+			var p_vel_lengh = p.velocity.length()
+			var avg_len = (sample_vel_lengh+p_vel_lengh)/2
+			var samp_to_p:Vector2 = (pa.pos - p.pos).normalized()
+			pa.velocity = (samp_to_p * avg_len + samp_to_p * current_dens) * colldamping
+			p.velocity =  -(samp_to_p * avg_len + samp_to_p * current_dens) * colldamping
 
 func genarate_paticle():
 	paticles = []
@@ -73,7 +104,6 @@ func cal_target_delta():
 	if OpenLog : print(target_delta)
 
 func out_off_box(paticle:PhyPaticle):
-	
 	if paticle.pos.y + radius > box.end.y :
 		paticle.pos.y = box.end.y - radius
 		paticle.velocity.y *= -1 * PhysicProp.colldamping
@@ -88,8 +118,6 @@ func out_off_box(paticle:PhyPaticle):
 		paticle.pos.x = box.position.x + radius
 		paticle.velocity.x *= -1 * PhysicProp.colldamping
 
-func ready_paticles():
-	pass
 
 func _draw():
 	draw_rect(box,Color.GREEN,true)
@@ -104,16 +132,24 @@ func smooth_kernel(rad,dis):
 func cal_desity(sample_point:PhyPaticle):
 	var dens = 0
 	for p in paticles :
-		if p != sample_point :
+		if p.pos != sample_point.pos :
 			var dis = (sample_point.pos - p.pos).length()
+			if dis > smooth_radius : continue
 			var influent = smooth_kernel(smooth_radius,dis)
-			dens += mass * influent
+			dens += mass * influent * 100
+			var sample_vel_lengh = sample_point.velocity.length()
+			var p_vel_lengh = p.velocity.length()
+			var avg_len = (sample_vel_lengh+p_vel_lengh)/2
+			var samp_to_p:Vector2 = (sample_point.pos - p.pos).normalized()
+			sample_point.velocity = (samp_to_p * avg_len + samp_to_p ) * colldamping 
+			p.velocity += -(samp_to_p * avg_len + samp_to_p ) * colldamping 
 	
 	return dens
 
 func _input(event):
 	if Input.is_action_pressed("click") :
-		var pos = get_global_mouse_position() 
-		var sample = PhyPaticle.new(pos)
-		var dens = cal_desity(sample) * 100
+		var pos = get_global_mouse_position()
+		var dens = cal_desity(PhyPaticle.new(pos))
 		print(dens)
+	if Input.is_action_just_pressed("reload") :
+		ResetScene = true
